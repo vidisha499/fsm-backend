@@ -18,13 +18,13 @@ TypeOrmModule.forRoot({
   password: 'npg_Rz3iD9NuJmCa',
   database: 'neondb',
   autoLoadEntities: true,
-  synchronize: true, // Set to true once to create tables, then false later
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  synchronize: true, 
+      // ✅ Move SSL directly here for better stability with Neon
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      // ✅ Add timeout to prevent the socket from dropping during the handshake
+      connectTimeoutMS: 10000,
 }),
     RangersModule,
     PatrolsModule,
