@@ -1,5 +1,5 @@
 export class CreateAttendanceDto {
-  rangerId: number;
+  ranger_id: number;
   photo?: string;
   ranger?: string;
   geofence?: string;

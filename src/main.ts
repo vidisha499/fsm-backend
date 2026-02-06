@@ -1,30 +1,22 @@
-// import { NestFactory } from '@nestjs/core';
-// import { AppModule } from './app.module';
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   app.enableCors(); // Essential for frontend connection
-//   app.setGlobalPrefix('api'); // This makes the URL http://localhost:3000/api
-//   await app.listen(3000);
-// }
-// bootstrap();
-
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
+import * as express from 'express';
 
 async function bootstrap() {
-  dotenv.config(); // ✅ Load .env variables
-
-  console.log('DATABASE_URL =>', process.env.DATABASE_URL);
+  dotenv.config();
 
   const app = await NestFactory.create(AppModule);
+
+  // ✅ Fix for "Request Entity Too Large": Allows 50MB photo strings
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
   app.enableCors();
   app.setGlobalPrefix('api');
+  
   await app.listen(process.env.PORT || 3000);
 
   console.log(`Application is running on: http://localhost:${process.env.PORT || 3000}`);
 }
 bootstrap();
-
-
